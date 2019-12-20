@@ -4,6 +4,7 @@ import json
 import os
 import re
 import requests
+import pdb
 
 from subprocess import check_output
 from email.parser import BytesHeaderParser
@@ -51,6 +52,8 @@ class CurrentState(GetEnvDepData):
         temp_dict = {}
         for key in set(metadata_input.keys()):
             temp_dict[key] = metadata_input.get_all(key)
+            if len(temp_dict[key]) == 1:
+                temp_dict[key] = temp_dict[key][0]
         if not self.test_serializability(temp_dict):
             # something in dict is not serializable, figure it out
             for key in temp_dict:
@@ -65,7 +68,10 @@ class CurrentState(GetEnvDepData):
         the name of Classifiers key is diff for pip show and metadata from importlib_metadata
         This keeps the pip show naming
         """
-        temp_dict["Classifiers"] = temp_dict["Classifier"]
+        try:
+            temp_dict["Classifiers"] = temp_dict["Classifier"]
+        except:
+            temp_dict["Classifiers"] = ""
         return self.parse_out_more_info(temp_dict)
 
     def parse_details_string(self, detail_string):

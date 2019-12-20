@@ -21,9 +21,10 @@ def auto_get_data(arguments):
     arguments.read_json_file = None
     arguments.reget_data = False
     arguments.save_raw_data = None
-
+    print("Getting data on current environment")
     get_data_on_packages(arguments)
     arguments.latest = True
+    print("Getting data on latest environment")
     get_data_on_packages(arguments)
 
 
